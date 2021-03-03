@@ -1,0 +1,7 @@
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\obj\Release\Nanime-RPC.csprojAssemblyReference.cache
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\obj\Release\Nanime-RPC.csproj.CoreCompileInputs.cache
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\bin\Release\Nanime-RPC v1.1.exe.config
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\bin\Release\Nanime-RPC v1.1.exe
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\bin\Release\Nanime-RPC v1.1.pdb
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\obj\Release\Nanime-RPC v1.1.exe
+D:\NanimeRPC\Nanime-RPC\Nanime-RPC\obj\Release\Nanime-RPC v1.1.pdb
