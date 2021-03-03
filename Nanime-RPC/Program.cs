@@ -15,10 +15,14 @@ namespace Nanime_RPC
 {
     class Program
     {
-
-
-        public static DiscordRpc.EventHandlers handlers;
-        public static DiscordRpc.RichPresence presence;
+        static string domain_nanime = "nanime.biz ";
+        static string discord_contact = "Zikes GT#2251";
+        static string github_profile = "https://github.com/AditFarrel";
+        static string title_nanime;
+        static string episode_nanime;
+        //static long timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds(); # OPTIONAL
+        static DiscordRpc.EventHandlers handlers;
+        static DiscordRpc.RichPresence presence;
         static void ShowSpinner()
         {
             var counter = 0;
@@ -47,12 +51,17 @@ namespace Nanime_RPC
 
         }
 
+        static void awalan_kata()
+        {
+            Typewrite("Made by : Adit Farrel\nDiscord : " + discord_contact + "\nGithub  : " + github_profile + "\n\n");
+        }
+
         private static void Main()
         {
-
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Green;
-            Typewrite("Made by : Adit Farrel\nMenghubungkan Koneksi...");
+            awalan_kata();
+            Typewrite("Menghubungkan Koneksi...");
             try
             {
                 WebClient a_web = new WebClient();
@@ -60,7 +69,7 @@ namespace Nanime_RPC
                 ShowSpinner();
                 Typewrite("\nSukses");
                 Thread.Sleep(2000);
-                discordRPC("idling", "");
+                //discordRPC("idling", ""); # Removed at Version 1.1
                 Console.Clear();
                 pilih_menu();
                 Console.ReadKey();
@@ -78,12 +87,14 @@ namespace Nanime_RPC
 
         private static void pilih_menu()
         {
-            Typewrite("Made by : Adit Farrel\n---------------------------");
+            awalan_kata();
+            Typewrite("---------------------------");
             Typewrite("\nSilahkan Pilih Browser Anda");
             Typewrite("\n1.Firefox");
-            Typewrite("\n2.Chrome");
+            Typewrite("\n2.Google Chrome");
             Typewrite("\n3.Microsoft Edge");
             Typewrite("\n---------------------------\n");
+            Typewrite("Perhatian.....\nDiscordRPC ini Berkerja Apabila Domain Nanime\nMasih Menggunakan "+ domain_nanime + "ya:)\n");
             Typewrite("\nNomor : ");
             string input = Console.ReadLine();
             int number;
@@ -111,19 +122,22 @@ namespace Nanime_RPC
             {
                 case "1":
                     Console.Clear();
-                    Typewrite("Made by : Adit Farrel\nLayanan RPC untuk Firefox Berhasil Dijalankan!\nSelamat Menikmati...");
+                    awalan_kata();
+                    Typewrite("Layanan RPC untuk Firefox Berhasil Dijalankan!\nSelamat Menikmati...");
                     mozilla();
                     break;
 
                 case "2":
                     Console.Clear();
-                    Typewrite("Made by : Adit Farrel\nLayanan RPC untuk Google Chrome Berhasil Dijalankan!\nSelamat Menikmati...");
+                    awalan_kata();
+                    Typewrite("Layanan RPC untuk Google Chrome Berhasil Dijalankan!\nSelamat Menikmati...");
                     chrome();
                     break;
 
                 case "3":
                     Console.Clear();
-                    Typewrite("Made by : Adit Farrel\nLayanan RPC untuk Microsoft Edge Berhasil Dijalankan!\nSelamat Menikmati...");
+                    awalan_kata();
+                    Typewrite("Layanan RPC untuk Microsoft Edge Berhasil Dijalankan!\nSelamat Menikmati...");
                     edge();
                     break;
             }
@@ -134,35 +148,35 @@ namespace Nanime_RPC
         {
             Match match = Regex.Match(file, @"<title>\s*(.+?)\s*</title>");
             if (match.Success)
-            {
-                string yep = string.Empty;
+            {               
                 if (Regex.IsMatch(match.Value, "Nonton Anime - Nonton Streaming Anime Sub Indo"))
                 {
-                    return yep = "Home Page";
+                    return title_nanime = "Home Page";
                 }
 
                 if (Regex.IsMatch(match.Value, @"You searched for \s*(.+?)\s* - Nonton Anime"))
                 {
                     Match mt = Regex.Match(match.Value, @"You searched for \s*(.+?)\s* - Nonton Anime");
-                    return yep = "Searching : " + mt.Groups[1].Value;
+                    return title_nanime = "Searching : " + mt.Groups[1].Value;
                 }
 
                 if (Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Episode [0-9]{1,4} Sub Indo - Nonton Anime"))
                 {
                     Match mt = Regex.Match(match.Value, @"Nonton Anime \s*(.+?)\s* Episode [0-9]{1,4} Sub Indo - Nonton Anime");
-                    return yep = mt.Groups[1].Value;
+                    return title_nanime = mt.Groups[1].Value;
                 }
 
                 if (Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Sub Indo - Nonton Anime"))
                 {
                     Match mt = Regex.Match(match.Value, @"Nonton Anime \s*(.+?)\s* Sub Indo - Nonton Anime");
-                    return yep = "Looking : " + mt.Groups[1].Value;
+                    return title_nanime = "Looking : " + mt.Groups[1].Value;
                 }
-                return yep;
+                return title_nanime;
             }
             else
             {
-                return "";
+                //return ""; # Removed at Version 1.1
+                return title_nanime; // Added at Version 1.1
             }
         }
 
@@ -172,12 +186,13 @@ namespace Nanime_RPC
             if (match.Success)
             {
                 Match yep = Regex.Match(match.Groups[1].Value, @"Episode\s* [0-9]{1,4}");
-                string yep2 = Regex.Replace(yep.Value, "Episode", "Episode :");
-                return yep2;
+                episode_nanime = Regex.Replace(yep.Value, "Episode", "Episode :");
+                return episode_nanime;
             }
             else
             {
-                return "";
+                //return ""; # Removed at Version 1.1
+                return episode_nanime; // # Added at Version 1.1
             }
         }
 
@@ -212,18 +227,22 @@ namespace Nanime_RPC
                                         ValuePattern activeTab = ii.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
 
                                         var activeUrl = activeTab.Current.Value;
-
                                         WebClient web = new WebClient();
-                                        var snya = web.DownloadString(activeUrl);
-                                        //MessageBox.Show("Link : " + activeUrl + "\nTitle : " + GetTitle(snya));
-
-                                        discordRPC(GetTitle(snya), GetEpisode(snya));
-
+                                        var snya = web.DownloadString(activeUrl);;
+                                        Match match = Regex.Match(snya, @"<title>\s*(.+?)\s*</title>");
+                                        if (match.Success)
+                                        {
+                                            if (Regex.IsMatch(match.Value, "Nonton Anime - Nonton Streaming Anime Sub Indo") || Regex.IsMatch(match.Value, @"You searched for \s*(.+?)\s* - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Episode [0-9]{1,4} Sub Indo - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Sub Indo - Nonton Anime"))
+                                            {
+                                                discordRPC(GetTitle(snya), GetEpisode(snya));
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
                 }
                 catch (Exception e)
                 {
@@ -231,7 +250,7 @@ namespace Nanime_RPC
                 }
 
             }
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
 
         private static void chrome()
@@ -264,9 +283,14 @@ namespace Nanime_RPC
                                 //Console.WriteLine("Chrome URL found: " + val.Current.Value);
                                 WebClient web = new WebClient();
                                 var snya = web.DownloadString("https://" + val.Current.Value);
-                                //MessageBox.Show("Link : " + activeUrl + "\nTitle : " + GetTitle(snya));
-
-                                discordRPC(GetTitle(snya), GetEpisode(snya));
+                                Match match = Regex.Match(snya, @"<title>\s*(.+?)\s*</title>");
+                                if (match.Success)
+                                {
+                                    if (Regex.IsMatch(match.Value, "Nonton Anime - Nonton Streaming Anime Sub Indo") || Regex.IsMatch(match.Value, @"You searched for \s*(.+?)\s* - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Episode [0-9]{1,4} Sub Indo - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Sub Indo - Nonton Anime"))
+                                    {
+                                        discordRPC(GetTitle(snya), GetEpisode(snya));
+                                    }
+                                }
                             }
                         }
                     }
@@ -277,7 +301,7 @@ namespace Nanime_RPC
                 }
 
             }
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
 
         private static void edge()
@@ -310,9 +334,14 @@ namespace Nanime_RPC
                                 //Console.WriteLine("Edge URL found: " + val.Current.Value);
                                 WebClient web = new WebClient();
                                 var snya = web.DownloadString(val.Current.Value);
-                                //MessageBox.Show("Link : " + activeUrl + "\nTitle : " + GetTitle(snya));
-
-                                discordRPC(GetTitle(snya), GetEpisode(snya));
+                                Match match = Regex.Match(snya, @"<title>\s*(.+?)\s*</title>");
+                                if (match.Success)
+                                {
+                                    if (Regex.IsMatch(match.Value, "Nonton Anime - Nonton Streaming Anime Sub Indo") || Regex.IsMatch(match.Value, @"You searched for \s*(.+?)\s* - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Episode [0-9]{1,4} Sub Indo - Nonton Anime") || Regex.IsMatch(match.Value, @"Nonton Anime \s*(.+?)\s* Sub Indo - Nonton Anime"))
+                                    {
+                                        discordRPC(GetTitle(snya), GetEpisode(snya));
+                                    }
+                                }
                             }
                         }
                     }
@@ -323,7 +352,7 @@ namespace Nanime_RPC
                 }
 
             }
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
         }
 
         private static void discordRPC(string details, string state)
@@ -336,7 +365,8 @@ namespace Nanime_RPC
             presence.state = state;
             presence.largeImageKey = "logo";
             presence.smallImageKey = "";
-            presence.largeImageText = "Nanime-DiscordRPC BETA";
+            presence.largeImageText = title_nanime;
+            //presence.startTimestamp = timestamp; # OPTIONAL
             DiscordRpc.UpdatePresence(ref presence);
         }
     }
